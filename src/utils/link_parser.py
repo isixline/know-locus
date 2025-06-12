@@ -1,6 +1,6 @@
 import re
 
-def parse_links_and_content(content: str) -> dict:
+def parse_links(content: str) -> list:
     """
     提取 content 中 [[xxx]] 格式的链接内容。
     
@@ -10,7 +10,4 @@ def parse_links_and_content(content: str) -> dict:
     link_pattern = r"\[\[([^\[\]]+)\]\]"
     links = re.findall(link_pattern, content)
 
-    return {
-        "links": links,
-        "text": content
-    }
+    return links
