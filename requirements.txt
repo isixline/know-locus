@@ -1,0 +1,2 @@
+transformers==4.52.4
+pytest==8.4.0
