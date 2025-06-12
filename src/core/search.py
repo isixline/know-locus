@@ -1,7 +1,8 @@
 from utils.file_loader import read_files
 from utils.link_parser import parse_links_and_content
+from core.matcher import match_by_sentence_transformers
 
-def search_files(root_dir, file_filter):
+def search_files(query, root_dir, file_filter):
     """
     在指定目录下的所有文件中搜索 [[xxx]] 格式的链接内容。
 
@@ -12,16 +13,20 @@ def search_files(root_dir, file_filter):
         List[Dict[str, Any]]: [{ "name": 文件名, "links": 链接列表, "text": 原始文本 }, ...]
     """
     files = read_files(root_dir, file_filter)
-    results = []
+    parsed_files = []
 
     for file in files:
         content = file["content"]
         parsed = parse_links_and_content(content)
-        results.append({
+        parsed_files.append({
             "name": file["name"][:-3],  # 去掉后缀
             "links": parsed["links"],
             "text": parsed["text"]
         })
+
+    # 使用 sentence_transformers 进行匹配
+    corpus = [parsed_file["text"] for parsed_file in parsed_files]
+    results = match_by_sentence_transformers(query, corpus)
 
     return results
 
@@ -33,9 +38,9 @@ if __name__ == "__main__":
     root_dir = os.getenv('KNOW_LIB_FILE_PATH')
     # 过滤 md 文件并且以数字开头
     file_filter = lambda filename: filename.endswith('.md') and filename[0].isdigit()
-    results = search_files(root_dir, file_filter)
+    query = "人工智能"
+    results = search_files(query, root_dir, file_filter)
+    results = [result for result in results if result["score"] > 0.5]  # 过滤低分结果
     for result in results:
-        print(f"File: {result['name']}")
-        print(f"Links: {result['links']}")
-        print(f"Text: {result['text'][:100]}...")  # Print first 100 characters of text
-        print()
+        print(result)
+   
