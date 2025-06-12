@@ -1,10 +1,4 @@
-import sys
-import os
-
-# 让 pytest 能找到 src/utils 模块
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-
-from utils.link_parser import parse_links
+from core.parser import parse_links
 
 def test_basic_links():
     content = "介绍 [[人工智能]] 和 [[深度学习]] 是关键。"
@@ -22,6 +16,6 @@ def test_edge_cases():
     assert result == ["重复", "重复"]
 
 def test_nested_brackets():
-    content = "这不是链接 [[[假装链接]]。"
+    content = "这不是链接 [[[链接]]。"
     result = parse_links(content)
-    assert result == ["假装链接"]
+    assert result == ["链接"]
