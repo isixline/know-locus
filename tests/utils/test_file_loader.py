@@ -3,7 +3,7 @@ import shutil
 import os
 import pytest
 
-from utils.file_loader import read_files_with_suffix
+from utils.file_loader import read_files
 
 @pytest.fixture
 def test_dir():
@@ -31,7 +31,8 @@ def test_dir():
 
 
 def test_read_md_files(test_dir):
-    notes = read_files_with_suffix(test_dir, suffix=".md")
+    file_filter = lambda f: f.endswith('.md')
+    notes = read_files(test_dir, file_filter)
     note_names = sorted([n['name'] for n in notes])
 
     expected_names = sorted([
@@ -46,6 +47,7 @@ def test_read_md_files(test_dir):
 
 
 def test_ignore_non_md_files(test_dir):
-    notes = read_files_with_suffix(test_dir, suffix=".md")
+    file_filter = lambda f: f.endswith('.md')
+    notes = read_files(test_dir, file_filter)
     for note in notes:
         assert note["name"].endswith(".md")

@@ -1,21 +1,21 @@
 import os
 
-def read_files_with_suffix(root_dir, suffix=".md"):
+def read_files(root_dir, file_filter):
     """
-    递归遍历 root_dir，读取所有以 suffix 结尾的文件内容。
+    递归遍历 root_dir，读取经file_filter的文件内容。
     
     参数:
         root_dir (str): 根目录路径
-        suffix (str): 文件后缀名（默认 ".md"）
+        file_filter (fun): 文件过滤器函数，接收文件名作为参数，返回布尔值
     
     返回:
-        List[Dict[str, str]]: [{ "name": 相对路径或文件名, "content": 文件内容 }, ...]
+        List[Dict[str, str]]: [{ "name": 文件名, "content": 文件内容 }, ...]
     """
     results = []
 
     for dirpath, _, filenames in os.walk(root_dir):
         for filename in filenames:
-            if filename.endswith(suffix):
+            if file_filter(filename):
                 file_path = os.path.join(dirpath, filename)
                 relative_path = os.path.relpath(file_path, root_dir)
                 try:
