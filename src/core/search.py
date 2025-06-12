@@ -4,11 +4,9 @@ from dotenv import load_dotenv
 import os   
 from core.formatter import remove_links
 
-load_dotenv()  # 默认读取 .env 文件
+load_dotenv() 
 
-def search_files(query, file_filter):
-    root_dir = os.getenv('KNOW_LIB_FILE_PATH')
-
+def search_files(query, root_dir, file_filter):
     files = read_files(root_dir, file_filter)
     parsed_files = []
 
@@ -24,12 +22,23 @@ def search_files(query, file_filter):
 
     return results
 
+def search_files_in_know_lib(query, file_filter):
+    root_dir = os.getenv('KNOW_LIB_FILE_PATH')
+
+    return search_files(query, root_dir, file_filter)
+
+def show_results(results):
+    results = [result for result in results if result["score"] > 0.5]  # 过滤低分结果
+
+    for result in results:
+        print(f"Name: {result['name']}, Score: {result['score']}")
+        print(f"Text: {result['text'][:100]}...")  # 只显示前100个字符
+        print("-" * 40)
+
 if __name__ == "__main__":
     import core.filter
-    query = "人工智能"
     file_filter = core.filter.inspiration_notes_filter
-    results = search_files(query, file_filter)
-    results = [result for result in results if result["score"] > 0.5]  # 过滤低分结果
-    for result in results:
-        print(result)
+    query = input("请输入查询内容: ")
+    results = search_files_in_know_lib(query, file_filter)
+    show_results(results)
    
