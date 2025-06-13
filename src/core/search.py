@@ -28,8 +28,6 @@ def search_files_in_know_lib(query, file_filter):
     return search_files(query, root_dir, file_filter)
 
 def show_results(results):
-    results = [result for result in results if result["score"] > 0.5]  # 过滤低分结果
-
     for result in results:
         print(f"Name: {result['name']}, Score: {result['score']}")
         print(f"Text: {result['text'][:100]}...")  # 只显示前100个字符
