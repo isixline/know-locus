@@ -1,6 +1,7 @@
-from sentence_transformers import SentenceTransformer
 from sentence_transformers import util
+from utils.timers import track_time
 
+@track_time
 def match_by_sentence(query_vector, corpus_vector, top):
     # 找到最相似的句子
     cos_scores = util.cos_sim(query_vector, corpus_vector)

@@ -1,6 +1,8 @@
 import faiss
 import numpy as np
+from utils.timers import track_time
 
+@track_time
 def match_by_faiss(query_vector, corpus_vector, top):
 
     # 编码
