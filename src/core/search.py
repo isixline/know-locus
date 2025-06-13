@@ -1,5 +1,5 @@
 from utils.file_loader import read_files
-from core.matcher import match_by_sentence_transformers
+from core.matcher import match
 from dotenv import load_dotenv
 import os   
 from core.formatter import remove_links
@@ -18,7 +18,7 @@ def search_files(query, root_dir, file_filter):
         })
 
     # 使用 sentence_transformers 进行匹配
-    results = match_by_sentence_transformers(query, parsed_files)
+    results = match(query, parsed_files)
 
     return results
 
