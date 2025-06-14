@@ -15,11 +15,19 @@ def match(query, corpus, top=5):
     query_vector = model.encode(query)
 
     # 查询
-    results = match_by_faiss(query_vector, corpus_vector, top)
-    for result in results:
-        result["text"] = corpus[result["index"]]["text"]
-        result["name"] = corpus[result["index"]]["name"]
-        result["score"] = result["score"]
+    match_results = match_by_faiss(query_vector, corpus_vector, top)
+
+    # 整理
+    results = []
+    for match_result in match_results:
+        result = {
+            "text": corpus[match_result["index"]]["text"],
+            "name": corpus[match_result["index"]]["name"],
+            "score": float(match_result["score"])
+        }
+        results.append(result)
+
+
     return results
 
 

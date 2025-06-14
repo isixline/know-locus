@@ -3,7 +3,7 @@ from core.matcher import match
 from core.formatter import remove_links
 from config.env import get_know_lib_path
 
-def search_in_files(query, root_dir, file_filter):
+def search_in_files(query, root_dir, file_filter, top):
     files = read_files(root_dir, file_filter)
     parsed_files = []
 
@@ -14,10 +14,11 @@ def search_in_files(query, root_dir, file_filter):
             "text": remove_links(content),  # 移除链接
         })
 
-    results = match(query, parsed_files)
+    results = match(query, parsed_files, top)
+    
 
     return results
 
-def search_files_in_know_lib(query, file_filter):
+def search_files_in_know_lib(query, file_filter, top):
     know_lib_path = get_know_lib_path()
-    return search_in_files(query, know_lib_path, file_filter)
+    return search_in_files(query, know_lib_path, file_filter, top)
