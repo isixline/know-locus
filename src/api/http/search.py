@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 from core.search import search_files_in_know_lib
 from core.filter import inspiration_notes_filter
 from utils.vector_cacher import clear_vector_cache
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app) 
 
 @app.route('/search/inspiration', methods=['POST'])
 def search_inspiration():
