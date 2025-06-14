@@ -13,7 +13,7 @@ def match(query, corpus, top=5):
     query_vector = model.encode(query)
 
     # 查询
-    results = match_by_faiss(query_vector, corpus_vector, top)
+    results = match_by_sentence(query_vector, corpus_vector, top)
     for result in results:
         result["text"] = corpus[result["index"]]["text"]
         result["name"] = corpus[result["index"]]["name"]
