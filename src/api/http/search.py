@@ -4,6 +4,7 @@ from core.filter import inspiration_notes_filter
 from utils.vector_cacher import clear_vector_cache
 from core.parser import parse_md
 from config.env import get_know_lib_path
+from core.filter import tech_notes_filter
 from core.filter import inspiration_notes_filter
 from flask_cors import CORS
 
@@ -26,9 +27,14 @@ def clear_cache_vector():
     return jsonify({"message": "Vector cache cleared successfully."})
 
 
-@app.route("/nodes", methods=["GET"])
-def get_nodes():
+@app.route("/nodes/inspiration", methods=["GET"])
+def get_inspiration_nodes():
     know_lib = parse_md(get_know_lib_path(), inspiration_notes_filter)
+    return jsonify({"nodes": know_lib})
+
+@app.route("/nodes/tech", methods=["GET"])
+def get_nodes_tech():
+    know_lib = parse_md(get_know_lib_path(), tech_notes_filter)
     return jsonify({"nodes": know_lib})
 
 
