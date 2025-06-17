@@ -38,7 +38,7 @@ def test_read_md_files(test_dir):
     expected_names = sorted([
         "note1.md",
         "note2.md",
-        os.path.join("subdir", "note3.md")
+        "note3.md"
     ])
 
     assert note_names == expected_names

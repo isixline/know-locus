@@ -22,7 +22,7 @@ def read_files(root_dir, file_filter):
                     with open(file_path, 'r', encoding='utf-8') as f:
                         content = f.read()
                     results.append({
-                        "name": relative_path,
+                        "name": filename,
                         "content": content
                     })
                 except Exception as e:
