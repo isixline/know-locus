@@ -1,23 +1,22 @@
 from flask import Flask, request, jsonify
 from core.search import search_files_in_know_lib
-from core.filter import inspiration_notes_filter
 from utils.vector_cacher import clear_vector_cache
 from core.parser import parse_md
 from config.env import get_know_lib_path
 from core.filter import tech_notes_filter
-from core.filter import inspiration_notes_filter
+from core.filter import idea_notes_filter
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/search/inspiration", methods=["POST"])
-def search_inspiration():
+@app.route("/search/idea", methods=["POST"])
+def search_idea():
     data = request.get_json()
     query = data.get("query", "")
     top = data.get("top", 10)
-    results = search_files_in_know_lib(query, inspiration_notes_filter, top)
+    results = search_files_in_know_lib(query, idea_notes_filter, top)
     return jsonify({"results": results})
 
 
@@ -27,9 +26,9 @@ def clear_cache_vector():
     return jsonify({"message": "Vector cache cleared successfully."})
 
 
-@app.route("/nodes/inspiration", methods=["GET"])
-def get_inspiration_nodes():
-    know_lib = parse_md(get_know_lib_path(), inspiration_notes_filter)
+@app.route("/nodes/idea", methods=["GET"])
+def get_idea_nodes():
+    know_lib = parse_md(get_know_lib_path(), idea_notes_filter)
     return jsonify({"nodes": know_lib})
 
 @app.route("/nodes/tech", methods=["GET"])

@@ -8,7 +8,7 @@ def show_results(results):
 
 if __name__ == "__main__":
     import core.filter
-    file_filter = core.filter.inspiration_notes_filter
+    file_filter = core.filter.ieda_notes_filter
     query = input("请输入查询内容: ")
     results = search_files_in_know_lib(query, file_filter)
     show_results(results)
