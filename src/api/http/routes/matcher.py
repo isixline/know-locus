@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from core.search import search_files_in_know_lib
+from core.match import match_in_know_lib
 from utils.vector_cacher import clear_vector_cache
 from core.filter import idea_notes_filter
 
@@ -11,7 +11,7 @@ def search_idea():
     data = request.get_json()
     query = data.get("query", "")
     top = data.get("top", 10)
-    results = search_files_in_know_lib(query, idea_notes_filter, top)
+    results = match_in_know_lib(query, idea_notes_filter, top)
     return jsonify({"results": results})
 
 

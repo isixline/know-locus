@@ -1,4 +1,4 @@
-from core.search import search_files_in_know_lib
+from core.match import search_files_in_know_lib
 
 def show_results(results):
     for result in results:
