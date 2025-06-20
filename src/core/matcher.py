@@ -3,7 +3,7 @@ from utils.sentence_matcher import match_by_sentence
 from utils.timers import track_time
 from utils.vectorizer import vectorize_text, vectorized_corpus
 from utils.file_loader import read_files
-from core.formatter import remove_links
+from core.formatter import remove_links, remove_blank_dash_lines
 
 
 @track_time
@@ -40,7 +40,7 @@ def match_in_files(query, root_dir, file_filter, top):
         parsed_files.append(
             {
                 "name": file["name"][:-3],  # 去掉后缀
-                "text": remove_links(content),  # 移除链接
+                "text": remove_blank_dash_lines(remove_links(content)),  # 移除链接
             }
         )
 
